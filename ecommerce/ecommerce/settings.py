@@ -125,24 +125,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 import os
 
-STATIC_URL = '/static/'
+# Static files (CSS, JavaScript, images)
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Add this line to define the STATIC_ROOT path
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Keep STATICFILES_DIRS if you have additional static files
+# Ensure Django finds static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, "static"),  # If you have a 'static' folder
 ]
+
+# Media files (User uploaded content like product images)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Media files settings
-MEDIA_URL = '/media/'  # Base URL for media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where uploaded files are stored
+
 LOGIN_URL = '/users/login/'  # Update this path to your custom login page
 LOGOUT_REDIRECT_URL = '/users/login/'  # Redirect here after logout
 LOGIN_REDIRECT_URL = '/profile/'  # Redirect users to the profile page after login

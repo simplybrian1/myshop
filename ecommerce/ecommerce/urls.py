@@ -20,6 +20,8 @@ from django.urls import path, include
 from cart import views as cart_views  # Rename the import to avoid name conflicts
 from users.views import home, profile_view, edit_profile  # Import necessary views
 from cart.views import order_detail , cancel_order
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Django admin
@@ -34,10 +36,5 @@ urlpatterns = [
     # Profile URLs
     path('profile/', profile_view, name='profile'),
 ]
-
-
-from django.conf import settings
-from django.conf.urls.static import static
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
