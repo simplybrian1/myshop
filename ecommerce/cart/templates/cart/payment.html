@@ -1,0 +1,7 @@
+<form method="POST">
+    {% csrf_token %}
+    <h3>Select Payment Method</h3>
+    <input type="radio" name="payment_method" value="mpesa" required> M-Pesa
+    <input type="radio" name="payment_method" value="card" required> Credit/Debit Card
+    <button type="submit">Continue to Review Order</button>
+</form>

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 text-center">
+        <h2 class="text-success">✔ Order Placed!</h2>
+        <p class="font-weight-bold">Thank you for shopping with us, <strong>{{ order.user.username }}</strong>!</p>
+
+        <div class="alert alert-warning">
+            Your order ID: <strong>#{{ order.id }}</strong> <br>
+            We’ll notify you once your order is shipped.
+        </div>
+
+        <h4 class="mb-3">Order Summary</h4>
+        <ul class="list-group mb-3">
+            {% for item in order.items.all %}
+                <li class="list-group-item d-flex align-items-center">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-img">
+                    <div class="ml-3 flex-grow-1 text-left">
+                        <strong>{{ item.product.name }}</strong><br>
+                        Quantity: <strong>{{ item.quantity }}</strong>
+                    </div>
+                    <span class="text-right font-weight-bold">${{ item.total_price }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h5><strong>Total Amount:</strong> ${{ order.total }}</h5>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{% url 'home' %}" class="btn btn-warning continue-btn">Continue Shopping</a>
+            
+            {% if order.status != "shipped" %}
+                <button id="markShippedBtn" class="btn btn-success">Mark as Shipped</button>
+            {% else %}
+                <span class="badge bg-success">Shipped</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("markShippedBtn")?.addEventListener("click", function() {
+    fetch("{% url 'cart:mark_shipped' order.id %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Order marked as shipped!");
+            window.location.href = data.redirect_url;  // Redirect to user profile page
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+
+</script>
+
+<!-- Custom Amazon-Like Styles -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .card {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #007600;
+    }
+
+    .alert-warning {
+        background: #fff8d4;
+        color: #333;
+        border: 1px solid #f4d03f;
+        padding: 10px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .list-group-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: none;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .continue-btn {
+        background: #ff9900;
+        color: white;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .continue-btn:hover {
+        background: #e68900;
+    }
+
+    .btn-secondary {
+        background: #37475A;
+        color: white;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+        background: #2a3c4b;
+    }
+</style>
+
+{% endblock %}

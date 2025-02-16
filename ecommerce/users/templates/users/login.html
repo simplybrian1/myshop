@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; height: 80vh; background-color: #f3f3f3;">
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 100%; max-width: 350px; text-align: center;">
+
+
+        <h2 style="color: #232f3e; font-size: 1.5rem;">Sign in</h2>
+
+        <form method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+            {% csrf_token %}
+            <div style="text-align: left;">
+                <label for="id_username" style="font-weight: bold;">Email or mobile phone number</label>
+                {{ form.username }}
+            </div>
+            <div style="text-align: left;">
+                <label for="id_password" style="font-weight: bold;">Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" style="padding: 0.7rem; background-color: #f90; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                Sign in
+            </button>
+        </form>
+
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            <a href="#" style="color: #0066c0; text-decoration: none;">Forgot Password?</a>
+        </p>
+
+        <hr style="margin: 1.5rem 0;">
+
+        <p style="font-size: 0.9rem;">New to MyShop?</p>
+        <a href="{% url 'users:register' %}" style="display: inline-block; padding: 0.7rem; background-color: #ddd; color: black; border-radius: 5px; text-decoration: none; font-weight: bold;">
+            Create your MyShop account
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+
+    <!-- Display product image -->
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 300px; height: auto;">
+
+    <!-- Product description -->
+    <p>{{ product.description }}</p>
+
+    <!-- Product price -->
+    <p><strong>Price:</strong> ${{ product.price }}</p>
+
+    <!-- Add to cart button (You can add a cart functionality later) -->
+    <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
+
+    <!-- Link back to product list -->
+    <a href="{% url 'product_list' %}">Back to Product List</a>
+</body>
+</html>

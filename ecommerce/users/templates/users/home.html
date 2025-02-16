@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MyShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #131921;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header a {
+            color: white;
+            font-size: 1.2em;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .hero-section {
+            text-align: center;
+            background-color: #232f3e;
+            color: white;
+            padding: 40px 20px;
+        }
+        .hero-section h1 {
+            font-size: 3em;
+        }
+        .hero-section p {
+            font-size: 1.2em;
+        }
+        .btn-primary {
+            background-color: #ff9900;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background-color: #e68900;
+        }
+        .product-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 40px;
+            background-color: #fff;
+        }
+        .product {
+            text-align: center;
+            max-width: 200px;
+            margin: 20px;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 8px;
+            height: auto;
+        }
+        .product h3 {
+            margin: 10px 0;
+            font-size: 1.3em;
+            color: #007bff;
+        }
+        .product p {
+            color: #555;
+        }
+        footer {
+            background-color: #131921;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to MyShop!</h1>
+    <nav>
+       <a href="{% url 'profile' %}">Your Profile</a>
+    </nav>
+</header>
+
+<section class="hero-section">
+    <h1>Shop the Best Products</h1>
+    <p>Find everything you need in one place.</p>
+    <a href="{% url 'product_list' %}" class="btn-primary">Start Shopping</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'cart_view' %}" class="btn-primary">View Cart</a>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</section>
+
+<section class="product-section">
+    {% for product in products %}
+        <div class="product">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <a href="{% url 'product_details' product.id %}" class="btn-primary">View Details</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_to_cart' product.id %}" class="btn-primary">Add to Cart</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</section>
+
+<footer>
+    <p>&copy; 2025 MyShop. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

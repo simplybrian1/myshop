@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 style="text-align: center;">User Profile</h2>
+
+<div style="max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <h3>Profile Picture</h3>
+    <div style="text-align: center;">
+        {% if user_profile.profile_picture %}
+            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" style="max-width: 200px; border-radius: 50%; margin-bottom: 20px;">
+        {% else %}
+            <p>No profile picture available.</p>
+        {% endif %}
+    </div>
+
+    <h3>Personal Information</h3>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <h3>Profile Details</h3>
+    <p><strong>Full Name:</strong> {{ user_profile.full_name }}</p>
+    <p><strong>Bio:</strong> {{ user_profile.bio }}</p>
+
+    <button onclick="openEditPopup()" style="display: block; text-align: center; margin-top: 20px; padding: 10px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Edit Profile</button>
+</div>
+<!-- Pending Orders Section -->
+<div style="max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin-top: 20px;">
+    <h3 style="text-align: center; color: #ff9800;">Orders Being Processed</h3>
+    {% if pending_orders %}
+        <ul style="list-style: none; padding: 0;">
+            {% for order in pending_orders %}
+                <li style="background-color: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #ff9800;">
+                    <strong>
+                        <a href="{% url 'order_detail' order.id %}" style="color: #ff9800; text-decoration: none;">
+                            Order #{{ order.id }}
+                        </a>
+                    </strong> - Total: ${{ order.total_price }}
+                    <p>Status: <span style="color: #ff9800;">{{ order.status }}</span></p>
+                    
+                    <!-- Cancel Order Button (Only for Pending Orders) -->
+                    <form action="{% url 'cancel_order' order.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: red; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">Cancel Order</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="text-align: center; color: gray;">No pending orders.</p>
+    {% endif %}
+</div>
+
+
+<!-- Completed Orders Section -->
+<div style="max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin-top: 20px;">
+    <h3 style="text-align: center; color: #4CAF50;">Past Orders</h3>
+    {% if completed_orders %}
+        <ul style="list-style: none; padding: 0;">
+            {% for order in completed_orders %}
+                <li style="background-color: #e8f5e9; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #4CAF50;">
+                    <strong>
+                        <a href="{% url 'order_detail' order.id %}" style="color: #4CAF50; text-decoration: none;">
+                            Order #{{ order.id }}
+                        </a>
+                    </strong> - Total: ${{ order.total_price }}
+                    <p>Status: <span style="color: #4CAF50;">{{ order.status }}</span></p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="text-align: center; color: gray;">No past orders.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Function to open the edit profile popup
+    function openEditPopup() {
+        document.getElementById("editProfilePopup").style.display = "block";
+    }
+
+    // Function to close the edit profile popup
+    function closeEditPopup() {
+        document.getElementById("editProfilePopup").style.display = "none";
+    }
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Style for the popup overlay */
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Style for the popup content */
+    .popup-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        width: 400px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Style for the close button */
+    .popup-close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    /* Style for input fields and labels */
+    input[type="text"], input[type="email"], input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+</style>
+{% endblock %}

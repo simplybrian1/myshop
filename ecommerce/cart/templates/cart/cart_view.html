@@ -1,0 +1,46 @@
+{% load custom_filters %}
+
+<h2 style="font-size: 1.8rem; margin-bottom: 1rem; color: #232f3e; text-align: center;">Your Cart</h2>
+
+<div style="max-width: 800px; margin: 0 auto; background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    {% if cart.items.all %}
+        <ul style="list-style: none; padding: 0;">
+            {% for item in cart.items.all %}
+                <li style="background-color: #f3f3f3; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; border: 1px solid #dddddd;">
+                    <div>
+                        <strong style="font-size: 1.1rem;">{{ item.product.name }}</strong>
+                        <p style="margin: 0; color: #37475a;">Price: ${{ item.product.price }}</p>
+                        <p style="margin: 0; color: #37475a;">Quantity: {{ item.quantity }}</p>
+                        <p style="margin: 0; font-weight: bold; color: #000;">Total: ${{ item.product.price|multiply:item.quantity }}</p>
+                    </div>
+                    <a href="{% url 'cart:remove_from_cart' item.id %}" style="color: red; text-decoration: none; font-weight: bold; padding: 5px 10px; border-radius: 5px; background: #ffdddd;">
+                        Remove
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Overall Cart Total -->
+        <div style="text-align: center; margin-top: 1rem; font-size: 1.2rem; font-weight: bold;">
+            Total Price: ${{ cart.get_total_price }}
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="{% url 'home' %}" style="padding: 0.7rem 1.2rem; background-color: #febd69; color: #000; font-weight: bold; border-radius: 5px; text-decoration: none;">
+                Continue Shopping
+            </a>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="{% url 'cart:checkout' %}" style="padding: 0.7rem 1.2rem; background-color: #232f3e; color: #fff; font-weight: bold; border-radius: 5px; text-decoration: none;">
+                Proceed to Checkout
+            </a>
+        </div>
+    {% else %}
+        <p style="font-size: 1.2rem; color: #37475a; text-align: center;">Your cart is empty.</p>
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="/products/" style="display: inline-block; padding: 0.7rem 1.2rem; background-color: #febd69; color: #000; font-weight: bold; border-radius: 5px; text-decoration: none;">
+                Start Shopping
+            </a>
+        </div>
+    {% endif %}
+</div>

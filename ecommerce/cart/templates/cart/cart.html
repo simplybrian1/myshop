@@ -1,0 +1,15 @@
+<!-- cart/cart_view.html -->
+<h2>Your Cart</h2>
+{% if cart.items.all %}
+    <ul>
+        {% for item in cart.items.all %}
+            <li>
+                {{ item.product.name }} - Quantity: {{ item.quantity }}
+                <a href="{% url 'cart:remove_from_cart' item.id %}">Remove</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Your cart is not empty.</p>
+{% endif %}
+<a href="{% url 'home' %}">Continu Shopping</a>

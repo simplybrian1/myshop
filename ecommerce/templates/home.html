@@ -1,0 +1,661 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:#4a4242;
+        }
+/* New Homepage Banner Section */
+/* Banner Section - Reduced Height */
+.banner-section {
+    background-color:#2d2d2d; 
+    color: black;
+    text-align: center;
+    padding: 10px 0; /* Reduce padding */
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 300px; /* Set a fixed height */
+}
+
+/* Banner Slider */
+.banner-slider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 100%; /* Ensure it takes the full height */
+}
+
+.banner-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    height: 100%; /* Match parent height */
+}
+
+.banner-item img {
+    width: 100%;
+    height: 100%; /* Ensure it fills the height */
+    object-fit: cover; /* Crop to fit while maintaining aspect ratio */
+}
+
+/* Navigation Arrows */
+.banner-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.banner-nav.left {
+    left: 10px;
+}
+
+.banner-nav.right {
+    right: 10px;
+}
+
+/* Amazon-style Header */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#2f2626;
+    padding: 10px 20px;
+    color: rgb(224, 230, 226);
+}
+
+.logo {
+    max-height: 80px;
+}
+
+.nav-left a {
+    text-decoration: none;
+}
+
+.nav-search {
+    display: flex;
+    flex: 1;
+    max-width: 600px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.search-category {
+    padding: 8px;
+    border: none;
+    background: #f3f3f3;
+}
+
+.nav-search input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+.nav-search button {
+    background: #FFC107;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-account {
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-account .dropdown {
+    display: none;
+    position: absolute;
+    background: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    top: 100%;
+    right: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-account:hover .dropdown {
+    display: block;
+}
+
+.nav-cart {
+    font-weight: bold;
+}
+.nav-right .nav-products a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.nav-right .nav-products a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cart-count {
+    background: rgb(27, 19, 19);
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 50%;
+}
+
+
+        /* Categories */
+        .categories {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .categories ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 0;
+        }
+
+        .categories li {
+            list-style: none;
+            padding: 10px;
+            background: #FFC107;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .categories li:hover {
+            background-color: #e1e1e1;
+        }
+
+        /* Special Deals Section */
+        .special-deals {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .deals-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            scroll-behavior: smooth;
+        }
+
+        .deal-item {
+            flex: 0 0 250px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .deal-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+/* Featured Products */
+.featured-products {
+    text-align: center;
+    padding: 20px;
+}
+
+.products-slider {
+    display: flex;
+    overflow-x: hidden; /* Hide overflow to create the sliding effect */
+    gap: 10px;
+    scroll-behavior: smooth;
+    animation: scrollSlider 20s linear infinite; /* Continuous scrolling animation */
+}
+
+.product-item {
+    flex: 0 0 250px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.product-item h3 {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.product-item p {
+    color: #000000;
+}
+
+/* Create the scroll animation */
+@keyframes scrollSlider {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%); /* Move the slider left by 100% of its width */
+    }
+}
+      /* Special Deals Section */
+.special-deals {
+    text-align: center;
+    padding: 20px;
+}
+
+.deals-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    scroll-behavior: smooth;
+}
+
+.deal-item {
+    flex: 0 0 250px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.deal-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.deal-item h3 {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.deal-item p {
+    color: #0e0000;
+}
+
+.deal-item .original-price {
+    text-decoration: line-through;
+    color: #100101;
+    margin-right: 5px;
+}
+
+.deal-item .discount-price {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* Create the scroll animation */
+@keyframes scrollDeals {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+    
+}  /* Chat Button */
+        #chat-box {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 250px;
+            background-color: #2B2B2B;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            font-family: 'Arial', sans-serif;
+            display: none;
+        }
+
+        #chat-header {
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            background-color: #222;
+            border-radius: 8px 8px 0 0;
+        }
+
+        #chat-content {
+            padding: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #02070d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .categories ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .deals-slider {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="nav-left">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="MyShop Logo" class="logo">
+                </a>
+            </div>
+            <form action="{% url 'product_list' %}" method="GET" class="nav-search">
+                <select name="category" class="search-category">
+                    <option value="">All</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="search" name="q" id="searchInput" placeholder="Search for products..." list="productSuggestions">
+                <datalist id="productSuggestions"></datalist>
+                <button type="submit">🔍</button>
+            </form>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let searchInput = document.getElementById("searchInput");
+                    let suggestionsList = document.getElementById("productSuggestions");
+            
+                    searchInput.addEventListener("input", function () {
+                        let query = searchInput.value;
+            
+                        if (query.length > 1) {
+                            fetch(`/product-suggestions/?q=${query}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    suggestionsList.innerHTML = "";
+                                    
+                                    if (data.length > 0) {
+                                        data.forEach(product => {
+                                            let option = document.createElement("option");
+                                            option.value = product.name;
+                                            option.setAttribute("data-url", `/product/${product.id}/`);
+                                            suggestionsList.appendChild(option);
+                                        });
+                                    }
+                                });
+                        } else {
+                            suggestionsList.innerHTML = "";
+                        }
+                    });
+            
+                    // Redirect when user selects a product
+                    searchInput.addEventListener("change", function () {
+                        let selectedOption = Array.from(suggestionsList.children).find(option => option.value === searchInput.value);
+                        if (selectedOption) {
+                            window.location.href = selectedOption.getAttribute("data-url");
+                        }
+                    });
+                });
+            </script>
+            
+                
+            
+            <!-- Where search results will appear -->
+            <div id="searchResults"></div>
+            
+                      
+            <div class="nav-right">
+                <div class="nav-products">
+                    <a href="{% url 'product_list' %}" class="nav-link">Products</a>
+                </div>
+            
+                <div class="nav-account">
+                    {% if user.is_authenticated %}
+                        <span>Hello, {{ user.username }}</span>
+                        <div class="dropdown">
+                            <a href="{% url 'profile' %}">Profile</a>
+                            <a href="{% url 'users:logout' %}">Logout</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'users:login' %}">Sign In</a>
+                    {% endif %}
+                </div>
+            
+                <div class="nav-cart">
+                    <a href="{% url 'cart:cart_view' %}">
+                        🛒 Cart <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </header>
+    <section class="banner-section">
+        <button class="banner-nav left" onclick="scrollBanner(-1)">❮</button>
+        <div class="banner-slider" id="bannerSlider">
+            <div class="banner-item">
+                <img src="{% static 'images/audi.jpg' %}" alt="Banner 1">
+            </div>
+            <div class="banner-item">
+                <img src="{% static 'images/citypic.jpg' %}" alt="Banner 2">
+            </div>
+            <div class="banner-item">
+                <img src="{% static 'images/wallpaper1.jpg' %}" alt="Banner 3">
+            </div>
+            <div class="banner-item">
+                <img src="{% static 'images/watercry.jpg' %}" alt="Banner 3">
+            </div>
+
+        </div>
+        <button class="banner-nav right" onclick="scrollBanner(1)">❯</button>
+    </section>
+    
+    <script>
+        let currentIndex = 0; 
+        let slider = document.getElementById("bannerSlider");
+        let banners = document.querySelectorAll(".banner-item");
+        let totalBanners = banners.length;
+        
+        function scrollBanner(direction) {
+            let bannerWidth = slider.clientWidth;
+            currentIndex += direction;
+            
+            // Loop back to the first banner if at the last one
+            if (currentIndex >= totalBanners) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = totalBanners - 1;
+            }
+    
+            // Apply blur effect
+            slider.style.transition = "filter 1s ease-in-out"; // Blur transition lasts 1 second
+            slider.style.filter = "blur(8px)"; // Strong blur effect before transition
+    
+            setTimeout(() => {
+                slider.scrollTo({
+                    left: currentIndex * bannerWidth,
+                    behavior: "smooth"
+                });
+                slider.style.filter = "blur(0px)"; // Remove blur after transition
+            }, 1000); // Wait 1 second before moving to new image
+        }
+    
+        // Auto-slide every 5 seconds
+        setInterval(() => {
+            scrollBanner(1);
+        }, 5000);
+    </script>
+    
+    
+    
+<main>
+    <section class="categories">
+        <h2>Shop by Category</h2>
+        <ul>
+            {% for category in categories %}
+                <li><a href="{% url 'product_list' %}?category={{ category.id }}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    <!-- Featured Products Section -->
+    <section class="featured-products">
+        <h2>Featured Products</h2>
+        <div class="slider-container">
+            <div class="products-slider">
+                {% for product in products %}
+                    <div class="product-item">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+                {% for product in products %} 
+                    <!-- Duplicate products to ensure infinite scrolling -->
+                    <div class="product-item">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    <style>
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+    
+        /* Slower speed: increased duration from 15s to 30s */
+.products-slider {
+    display: flex;
+    width: max-content; /* Ensure it's wide enough for smooth scrolling */
+    animation: scrollProducts 30s linear infinite;
+}
+    
+        .product-item {
+            flex: 0 0 auto;
+            width: 200px; /* Adjust based on your design */
+            margin: 0 10px;
+            text-align: center;
+        }
+    
+        .product-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    
+        @keyframes scrollProducts {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+
+    
+        /* Pause animation on hover */
+        .slider-container:hover .products-slider {
+            animation-play-state: paused;
+        }
+    </style>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const slider = document.querySelector('.products-slider');
+    
+            // Pause scroll on hover
+            slider.addEventListener('mouseenter', function () {
+                slider.style.animationPlayState = 'paused';
+            });
+    
+            // Resume scroll when hover is removed
+            slider.addEventListener('mouseleave', function () {
+                slider.style.animationPlayState = 'running';
+            });
+        });
+    </script>
+    
+    </section>
+<!-- Special Deals Section -->
+<section class="special-deals">
+    <h2>Special Deals</h2>
+    <div class="deals-slider">
+        {% for product in discounted_products %}
+            <div class="deal-item">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>
+                        <span class="original-price">${{ product.price }}</span>
+                        <span class="discount-price">${{ product.discounted_price }}</span>
+                    </p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+</main>
+
+
+</main>
+
+<footer>
+    <p>&copy; 2025 MyShop. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
